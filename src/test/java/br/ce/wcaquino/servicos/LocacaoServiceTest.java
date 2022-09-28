@@ -4,15 +4,11 @@ import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.util.Date;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -72,7 +68,7 @@ public class LocacaoServiceTest {
 			service.alugarFilme(null, filme);
 			Assert.fail();
 		} catch (LocadoraException e) {
-			assertThat(e.getMessage(), is("Usuario vazio"));
+			Assert.assertThat(e.getMessage(), is("Usuario vazio"));
 		}
 	}
 
