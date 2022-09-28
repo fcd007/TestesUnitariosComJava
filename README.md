@@ -1,4 +1,4 @@
-# TestesUnitariosComJava
+# Java Testes Unitários JUnit 4+
 
 ## Descrição do projeto
 
