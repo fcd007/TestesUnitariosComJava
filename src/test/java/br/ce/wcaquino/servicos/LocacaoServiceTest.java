@@ -5,7 +5,9 @@ import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,13 +41,18 @@ public class LocacaoServiceTest {
 	@Test
 	public void testeLocacao() throws Exception {
 		// cenario
-		Filme filme1 = new Filme("Matrix", 1, 7.0);
+		Filme filme1 = new Filme("Matrix", 1, 5.0);
+		Filme filme2 = new Filme("Titanic", 1, 4.0);
 		Usuario usuario1 = new Usuario("Erick Wendel");
+		//criando uma lista vazia de filmes e depois adicionando filmes na lista
+		List<Filme> listaFilmes = new ArrayList<Filme>();
+		listaFilmes.add(filme1);
+		listaFilmes.add(filme2);		
 		// Acao
 		Locacao locacao;
-		locacao = service.alugarFilme(usuario1, filme1);
+		locacao = service.alugarFilme(usuario1, listaFilmes);
 		// Verificação
-		error.checkThat(locacao.getValor(), is(equalTo(7.0)));
+		error.checkThat(locacao.getValor(), is(equalTo(9.0)));
 		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 	}
@@ -54,18 +61,24 @@ public class LocacaoServiceTest {
 	public void testLocacaoFilmeSemEstoque() throws Exception {
 		// cenario
 		Usuario usuario = new Usuario("Joao Carlos");
-		Filme filme = new Filme("Filme3", 0, 4.0);
+		Filme filme = new Filme("Avatar", 0, 4.0);
+		List<Filme> listaFilmes2 = new ArrayList<Filme>();
+		listaFilmes2.add(filme);
 		// acao
-		service.alugarFilme(usuario, filme);
+		service.alugarFilme(usuario, listaFilmes2);
 	}
 
 	@Test
 	public void testLocacaoUsuarioVazio() throws FilmesSemEstoqueException {
 		// cenario
-		Filme filme = new Filme("Filme4", 1, 4.8);
+		Filme filme1 = new Filme("Uma mente brilhante", 1, 2.0);
+		Filme filme2 = new Filme("Interestelar", 1, 3.0);
+		List<Filme> listaFilmes2 = new ArrayList<Filme>();
+		listaFilmes2.add(filme1);
+		listaFilmes2.add(filme2);
 		// acao
 		try {
-			service.alugarFilme(null, filme);
+			service.alugarFilme(null, listaFilmes2);
 			Assert.fail();
 		} catch (LocadoraException e) {
 			Assert.assertThat(e.getMessage(), is("Usuario vazio"));
@@ -75,10 +88,10 @@ public class LocacaoServiceTest {
 	@Test
 	public void testLocacaoFilmeVazio() throws FilmesSemEstoqueException, LocadoraException {
 		// cenario
-		Usuario usuario1 = new Usuario("Erick Wendel");
+		Usuario usuario1 = new Usuario("Judson Santiago");
 
 		exception.expect(LocadoraException.class);
-		exception.expectMessage("Filme Vazio");
+		exception.expectMessage("Lista de filmes está vazia");
 
 		// acao
 		service.alugarFilme(usuario1, null);
