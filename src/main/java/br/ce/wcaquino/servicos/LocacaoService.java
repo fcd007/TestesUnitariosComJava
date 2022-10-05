@@ -13,7 +13,12 @@ import br.ce.wcaquino.entidades.exceptions.LocadoraException;
 
 public class LocacaoService {
 
-	public Locacao alugarFilme(Usuario usuario, List<Filme> listaFilmes) throws FilmesSemEstoqueException, LocadoraException {
+	private final Double DESCONTO_75_PORCENTO = 0.75;
+	private final Double DESCONTO_50_PORCENTO = 0.50;
+	private final Double DESCONTO_25_PORCENTO = 0.25;
+
+	public Locacao alugarFilme(Usuario usuario, List<Filme> listaFilmes)
+			throws FilmesSemEstoqueException, LocadoraException {
 
 		if (usuario == null) {
 			throw new LocadoraException("Usuario vazio");
@@ -22,24 +27,34 @@ public class LocacaoService {
 		if (listaFilmes == null || listaFilmes.isEmpty()) {
 			throw new LocadoraException("Lista de filmes está vazia");
 		}
-		
-		for (Filme filme : listaFilmes) {			
+
+		for (Filme filme : listaFilmes) {
 			if (filme.getEstoque() == 0) {
 				throw new FilmesSemEstoqueException();
 			}
 		}
-				
+
 		Locacao locacao = new Locacao();
 		Double valorPrecoLocacaoTotal = 0.0;
-		
+
 		locacao.setFilmes(listaFilmes);
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
-		
+
+		int indice = 0;
 		for (Filme filme : listaFilmes) {
-			valorPrecoLocacaoTotal += filme.getPrecoLocacao();
+			if (indice == 2) {
+				valorPrecoLocacaoTotal += (filme.getPrecoLocacao() * DESCONTO_75_PORCENTO);
+			} else if (indice == 3) {
+				valorPrecoLocacaoTotal += (filme.getPrecoLocacao() * DESCONTO_50_PORCENTO);
+			} else if (indice == 4) {
+				valorPrecoLocacaoTotal += (filme.getPrecoLocacao() * DESCONTO_25_PORCENTO);
+			} else {
+				valorPrecoLocacaoTotal += filme.getPrecoLocacao();
+			}
+			indice++;
 		}
-		locacao.setValor(valorPrecoLocacaoTotal);	
+		locacao.setValor(valorPrecoLocacaoTotal);
 
 		// Entrega no dia seguinte
 		Date dataEntrega = new Date();
