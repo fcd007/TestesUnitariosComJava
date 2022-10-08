@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.entidades.exceptions.FilmesSemEstoqueException;
 import br.ce.wcaquino.entidades.exceptions.LocadoraException;
+import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {
 
@@ -57,6 +59,7 @@ public class LocacaoServiceTest {
 		error.checkThat(locacao.getValor(), is(equalTo(9.0)));
 		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+
 	}
 
 	@Test(expected = FilmesSemEstoqueException.class)
@@ -141,5 +144,22 @@ public class LocacaoServiceTest {
 
 		// Verificacao
 		assertThat(resultado.getValor(), is(14.0));
+	}
+
+	@Test
+	public void deveDevolverNaSegundaAoAlugarSabado() throws FilmesSemEstoqueException, LocadoraException {
+		// cenario
+		Usuario usuario = new Usuario("Claudeilton Dantas");
+		List<Filme> filmes = Arrays.asList(new Filme("Hobit", 1, 5.0));
+
+		// acao
+		Locacao retorno = locacaoService.alugarFilme(usuario, filmes);
+
+		// verificacao
+		// verificar se a devolução é realizada em um dia da semana
+		Boolean isSegundaFeira = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY); // verifica se
+																											// é uma
+																											// segunda-feira
+		Assert.assertTrue(isSegundaFeira);
 	}
 }
