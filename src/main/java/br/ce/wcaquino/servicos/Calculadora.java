@@ -13,7 +13,7 @@ public class Calculadora {
 	}
 
 	public int dividir(int numero1, int numero2) throws NaoPodeDividirPorZeroException {
-		if(numero2 == 0 ) {
+		if (numero2 == 0) {
 			throw new NaoPodeDividirPorZeroException();
 		}
 		return numero1 / numero2;

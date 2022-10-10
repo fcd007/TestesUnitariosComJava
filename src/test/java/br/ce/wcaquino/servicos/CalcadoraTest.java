@@ -6,7 +6,7 @@ import org.junit.Test;
 import br.ce.wcaquino.entidades.exceptions.NaoPodeDividirPorZeroException;
 
 public class CalcadoraTest {
-	
+
 	private Calculadora calculadora;
 
 	@Test
