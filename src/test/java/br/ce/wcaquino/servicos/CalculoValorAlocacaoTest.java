@@ -23,7 +23,7 @@ import br.ce.wcaquino.entidades.exceptions.LocadoraException;
 @RunWith(Parameterized.class)
 public class CalculoValorAlocacaoTest {
 
-	public LocacaoService locacaoService;
+	private LocacaoService locacaoService;
 
 	@Parameter
 	public List<Filme> filmes;
