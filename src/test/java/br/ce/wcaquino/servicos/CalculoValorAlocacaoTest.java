@@ -30,6 +30,9 @@ public class CalculoValorAlocacaoTest {
 
 	@Parameter(value = 1)
 	public Double valorAlocacao;
+	
+	@Parameter(value=2)
+	public String cenario;
 
 	private static Filme filme1 = new Filme("De volta para o futuro 1", 2, 4.0);
 	private static Filme filme2 = new Filme("De volta para o futuro 2", 2, 4.0);
@@ -44,12 +47,16 @@ public class CalculoValorAlocacaoTest {
 		locacaoService = new LocacaoService();
 	}
 
-	@Parameters
+	@Parameters(name = "{2}")
 	public static Collection<Object[]> getParametros() {
-		return Arrays.asList(new Object[][] { { Arrays.asList(filme1, filme2, filme3), 11.0 },
-				{ Arrays.asList(filme1, filme2, filme3, filme4), 13.0 },
-				{ Arrays.asList(filme1, filme2, filme3, filme4, filme5), 14.0 },
-				{ Arrays.asList(filme1, filme2, filme3, filme4, filme5, filme6), 14.0 }, });
+		return Arrays.asList(new Object[][] { 
+			{Arrays.asList(filme1, filme2), 8.0, "2 Filmes: sem desconto"},
+			{Arrays.asList(filme1, filme2, filme3), 11.0, "3 Filmes: 25%"},
+			{Arrays.asList(filme1, filme2, filme3, filme4), 13.0,  "4 Filmes: 50%"},
+			{Arrays.asList(filme1, filme2, filme3, filme4, filme5), 14.0,  "5 Filmes: 75%"},
+			{Arrays.asList(filme1, filme2, filme3, filme4, filme5, filme6), 14.0,  "6 Filmes: 100%"},
+			{Arrays.asList(filme1, filme2, filme3, filme4, filme5, filme6, filme7), 18.0,  "7 Filmes: Sem desconto"}
+		});
 	}
 
 	/**
@@ -70,5 +77,4 @@ public class CalculoValorAlocacaoTest {
 		// Verificacao
 		assertThat(resultado.getValor(), is(valorAlocacao));
 	}
-
 }
