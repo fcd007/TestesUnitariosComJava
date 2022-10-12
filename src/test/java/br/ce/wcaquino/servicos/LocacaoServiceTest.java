@@ -105,50 +105,6 @@ public class LocacaoServiceTest {
 	}
 
 	@Test
-	public void alugarFilmesCom75PorcentoDeDesconto() throws FilmesSemEstoqueException, LocadoraException {
-		// cenario 4+4+3
-		Usuario usuario = new Usuario("Pedro Lessa");
-		List<Filme> listaFilmes = Arrays.asList(new Filme("De volta para o futuro", 2, 4.0),
-				new Filme("De volta para o futuro 2", 2, 4.0), new Filme("De volta para o futuro 3", 2, 4.0));
-
-		// Acao
-		Locacao resultado = locacaoService.alugarFilme(usuario, listaFilmes);
-
-		// Verificacao
-		assertThat(resultado.getValor(), is(11.0));
-	}
-
-	@Test
-	public void alugarFilmesCom50PorcentoDeDesconto() throws FilmesSemEstoqueException, LocadoraException {
-		// cenario 4+4+3+2
-		Usuario usuario = new Usuario("Pedro Lessa");
-		List<Filme> listaFilmes = Arrays.asList(new Filme("De volta para o futuro", 2, 4.0),
-				new Filme("De volta para o futuro 2", 2, 4.0), new Filme("De volta para o futuro 3", 2, 4.0),
-				new Filme("De volta para o futuro 3", 2, 4.0));
-
-		// Acao
-		Locacao resultado = locacaoService.alugarFilme(usuario, listaFilmes);
-
-		// Verificacao
-		assertThat(resultado.getValor(), is(13.0));
-	}
-
-	@Test
-	public void alugarFilmesCom25PorcentoDeDesconto() throws FilmesSemEstoqueException, LocadoraException {
-		// cenario 4+4+3+2+1
-		Usuario usuario = new Usuario("Pedro Lessa");
-		List<Filme> listaFilmes = Arrays.asList(new Filme("De volta para o futuro", 2, 4.0),
-				new Filme("De volta para o futuro 2", 2, 4.0), new Filme("De volta para o futuro 3", 2, 4.0),
-				new Filme("De volta para o futuro 3", 2, 4.0), new Filme("De volta para o futuro 3", 2, 4.0));
-
-		// Acao
-		Locacao resultado = locacaoService.alugarFilme(usuario, listaFilmes);
-
-		// Verificacao
-		assertThat(resultado.getValor(), is(14.0));
-	}
-
-	@Test
 	public void deveDevolverNaSegundaAoAlugarSabado() throws FilmesSemEstoqueException, LocadoraException {
 		// verificar condicionamente se irá executar o teste ou não
 		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
