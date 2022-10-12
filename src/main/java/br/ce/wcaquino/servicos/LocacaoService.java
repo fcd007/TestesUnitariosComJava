@@ -18,6 +18,7 @@ public class LocacaoService {
 	private final Double DESCONTO_75_PORCENTO = 0.75;
 	private final Double DESCONTO_50_PORCENTO = 0.50;
 	private final Double DESCONTO_25_PORCENTO = 0.25;
+	private final Double DESCONTO_00_PORCENTO = 0.00;
 
 	public Locacao alugarFilme(Usuario usuario, List<Filme> listaFilmes)
 			throws FilmesSemEstoqueException, LocadoraException {
@@ -54,6 +55,9 @@ public class LocacaoService {
 				break;
 			case 4:
 				valorPrecoLocacaoTotal += (filme.getPrecoLocacao() * DESCONTO_25_PORCENTO);
+				break;
+			case 5:
+				valorPrecoLocacaoTotal += (filme.getPrecoLocacao() * DESCONTO_00_PORCENTO);
 				break;
 			default:
 				valorPrecoLocacaoTotal += filme.getPrecoLocacao();
