@@ -1,5 +1,7 @@
 package br.ce.wcaquino.servicos;
 
+import static br.ce.wcaquino.matchers.MatchersUtils.caiEm;
+import static br.ce.wcaquino.matchers.MatchersUtils.caiNumaSegunda;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -25,6 +27,8 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.entidades.exceptions.FilmesSemEstoqueException;
 import br.ce.wcaquino.entidades.exceptions.LocadoraException;
+import br.ce.wcaquino.matchers.DiaDaSemanaMatcher;
+import br.ce.wcaquino.matchers.MatchersUtils;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {
@@ -60,7 +64,7 @@ public class LocacaoServiceTest {
 		// Verificação
 		error.checkThat(locacao.getValor(), is(equalTo(9.0)));
 		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(2)), is(true));
 
 	}
 
@@ -117,9 +121,9 @@ public class LocacaoServiceTest {
 
 		// verificacao
 		// verificar se a devolução é realizada em um dia da semana
-		Boolean isSegundaFeira = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY); // verifica se
-																											// é uma
-																											// segunda-feira
+		Boolean isSegundaFeira = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY);
 		Assert.assertTrue(isSegundaFeira);
+		assertThat(retorno.getDataRetorno(), caiEm(Calendar.MONDAY));
+		assertThat(retorno.getDataRetorno(), caiNumaSegunda());
 	}
 }
