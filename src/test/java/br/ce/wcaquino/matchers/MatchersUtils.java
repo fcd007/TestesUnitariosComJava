@@ -11,4 +11,9 @@ public class MatchersUtils {
 	public static DiaDaSemanaMatcher caiNumaSegunda() {
 		return new DiaDaSemanaMatcher(Calendar.MONDAY);
 	}
+
+	public static DataDiferencaDiasMatcher dataComDiferencaDeDias(Integer quantidadeDeDiass) {
+		return new DataDiferencaDiasMatcher(quantidadeDeDiass);
+	}
+
 }
